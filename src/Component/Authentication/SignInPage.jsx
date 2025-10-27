@@ -3,13 +3,27 @@
 import React, { useState } from 'react';
 import { motion } from "motion/react"
 import Link from 'next/link';
+import useAxios_public from '@/Hook/useAxios_public';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '@/Redux/userSlice';
 const SignInPage = () => {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
-
-    const handleSubmit=()=>{
-        
-    console.log("sign In function??")
+     const axiosPublic= useAxios_public();
+     const dispatch= useDispatch()
+     const route= useRouter()
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+    const submitform=async()=>{
+    const res= await axiosPublic.post('/api/signIn',{email,password},{withCredentials: true,});
+    console.log("response::",res.data)
+    dispatch(setUserData(res?.data))
+    if(res?.data?.message == "true"){
+        return route.push('/')
+    }
+    }
+    submitform()
     }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
@@ -22,7 +36,7 @@ const SignInPage = () => {
                 <h2 className="text-3xl font-bold text-center mb-6 text-green-500">
                     Sign In Your Account
                 </h2>
-                <form className="space-y-5">
+                <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-gray-300 mb-2">Email</label>
                         <input
