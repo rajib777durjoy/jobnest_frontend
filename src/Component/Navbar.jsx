@@ -17,9 +17,7 @@ const Navbar = () => {
         router.push(path)
     }
     const handleSingout = async () => {
-        const res = await axiosPublic.post(`/api/signOut/${userData?.email}`, {}, {
-            withCredentials: true,
-        });
+        const res = await axiosPublic.post(`/api/signOut/${userData?.email}`,{});
         // console.log('signout::', res?.data?.message)
         if(res.data?.message){
           dispatch(setUserData(null))
@@ -38,7 +36,7 @@ const Navbar = () => {
             {/* Center position*/}
             {<NavItem handleNavigate={handleNavigate}></NavItem>}
 
-            {/* end position */}
+            {/* End position */}
             <div>
                 {userData && <div className='flex items-center justify-between gap-2'><span><BiSolidUserCircle className='text-4xl' /></span>
                 <span className='bg-[#10B981] text-black font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900' onClick={handleSingout}>Signout</span>

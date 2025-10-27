@@ -16,7 +16,7 @@ const SignInPage = () => {
     const handleSubmit=(e)=>{
         e.preventDefault();
     const submitform=async()=>{
-    const res= await axiosPublic.post('/api/signIn',{email,password},{withCredentials: true,});
+    const res= await axiosPublic.post('/api/signIn',{email,password});
     console.log("response::",res.data)
     dispatch(setUserData(res?.data))
     if(res?.data?.message == "true"){

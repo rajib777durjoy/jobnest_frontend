@@ -30,8 +30,7 @@ const SignUpPage = () => {
             const res = await axiosPublic.post('api/submitFrom', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },
-                withCredentials: true,
+                }
             })
             console.log('respons::', res.data)
             dispatch(setUserData(res.data))
