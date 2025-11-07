@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <nav className="w-[100%] fixed top-0 right-0 left-0 bg-[#0F172A] text-[#F9FAFB]">
+          <nav className="w-[100%] z-50 fixed top-0 right-0 left-0 bg-[#0F172A] text-[#F9FAFB]">
             <Navbar></Navbar>
           </nav>
           <main className="">

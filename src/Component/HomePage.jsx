@@ -21,12 +21,10 @@ const HomePage = () => {
     current_user()
    },[])
     return (
-        <div className='w-[90%] mx-auto grid md:grid-cols-2 gap-20 '>
-            <div className=''>
+        <div className='w-[100%] bg-[url("/AiHelp2.jpg")] bg-no-repeat bg-cover min-h-screen'>
+            <div className='w-[100%] h-[80px]'></div>
+            <div className='w-[90%] mx-auto '>
                 <HeadingPage title={'Find recent and relevant jobs'} subtitle={'Discover your dream job and reach HRs effortlessly, all in one place'} description={description}></HeadingPage>
-            </div>
-            <div className='flex items-center '>
-                <img src='/homepageImage.png' className='object-fill rounded-lg' alt='' />
             </div>
         </div>
     );

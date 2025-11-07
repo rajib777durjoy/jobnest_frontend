@@ -1,27 +1,35 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const HeadingPage = ({ title, subtitle, description }) => {
     return (
-        <div className='flex flex-col justify-center h-[500px]'>
-            <h1 className='text-4xl text-green-700 font-extrabold mt-4'>{title}</h1>
-            <h2 className='text-md font-serif'>{subtitle}</h2>
-            <p className='text-sm font-normal font-serif pt-5 pb-10 '>{description}</p>
-            <div className='flex mt-5 rounded-md shadow-lg shadow-green-900/40 py-4 px-3'>
-                <div className='w-[90%] h-[40px]'>
-                    <input
-                        className='border border-[#10B981]/60 bg-transparent text-gray-100 rounded-md w-full h-full outline-none px-3 placeholder-gray-400 focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] transition duration-300'
-                        type='text'
-                        placeholder='Search Jobs...'
-                        name=''
-                        id=''
-                    />
-                </div>
-                <button className='btn px-5 bg-[#10B981] text-black font-semibold mx-2 hover:bg-green-600 hover:text-white rounded-md transition duration-300'>
-                    Search
-                </button>
-            </div>
+        <section className="relative flex items-center justify-center  h-[500px] ">
 
-        </div>
+            <motion.div
+                className="relative z-10 w-[100%] text-center px-6"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
+                <h1 className="text-5xl md:text-6xl font-extrabold text-green-400 drop-shadow-lg">
+                    {title}
+                </h1>
+
+                <h2 className="mt-4 text-white text-xl md:text-2xl  font-medium tracking-wide">
+                    {subtitle}
+                </h2>
+
+                <p className="mt-6 text-white/80 text-sm md:text-base  leading-relaxed font-serif">
+                    {description}
+                </p>
+
+                <div className="mt-20">
+                    <button className="px-10 py-3 bg-green-500 hover:bg-green-600 transition-all duration-300 rounded-full text-white font-semibold shadow-md">
+                        Explore Jobs
+                    </button>
+                </div>
+            </motion.div>
+        </section>
     );
 };
 
