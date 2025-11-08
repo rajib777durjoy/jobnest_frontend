@@ -23,7 +23,7 @@ const HomePage = () => {
     return (
         <div className='w-[100%] bg-[url("/AiHelp2.jpg")] bg-no-repeat bg-cover min-h-screen'>
             <div className='w-[100%] h-[80px]'></div>
-            <div className='w-[90%] mx-auto '>
+            <div className='w-[90%] mx-auto'>
                 <HeadingPage title={'Find recent and relevant jobs'} subtitle={'Discover your dream job and reach HRs effortlessly, all in one place'} description={description}></HeadingPage>
             </div>
         </div>
