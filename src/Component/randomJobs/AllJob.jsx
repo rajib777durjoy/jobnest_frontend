@@ -81,7 +81,7 @@ const AllJob = () => {
 
               {/* Bottom Button */}
               <div className="mt-6">
-                <Link href={`/Jobs/Details/${item?.Job_id}`} target="_blank">
+                <Link href={`/Jobs/Details/${item?.Job_id}`}>
                   <button className="btn btn-success w-full text-black bg-green-500 rounded-md py-1 hover:bg-green-600 font-semibold">
                     View Details
                   </button>
