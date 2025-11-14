@@ -27,12 +27,12 @@ const Navbar = () => {
         const current_user = async () => {
             const getUser = await axiosPublic.get('/api/user/currentUser');
             //  console.log('current user::',getUser?.data)
-            if (getUser) {
+            if (getUser?.data) {
                 dispatch(setUserData(getUser?.data))
             }
         }
         current_user()
-    }, [])
+    },[])
     return (<>
         {
             location == '/Dashboard' ? <div className='w-[100%] flex shadow shadow-gray-200'>
@@ -40,7 +40,7 @@ const Navbar = () => {
                     <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
                     <h1 className='text-md font-bold'>Job<span>Nest</span></h1>
                 </div>
-                <div className='flex justify-between items-center w-[85%] px-4'>
+                <div className='flex justify-between items-center w-[85%] px-6'>
                     <div>
                         <h1 className='text-2xl text-black'>Welcome back!</h1>
                         <p className='text-gray-400'>Here's what's happening with your jobs today</p>
