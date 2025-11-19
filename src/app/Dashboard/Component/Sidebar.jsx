@@ -80,11 +80,11 @@ const Sidebar = () => {
                 </div>
                 }
                 {candidate && <div>
-                    <Link href='/Dashboard' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
+                    <Link href='/Dashboard' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  outline-0  rounded-md p-2  "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
                     <Link href='/Dashboard/ShowJobs' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><CiViewList className='text-lg' />My Jobs</Link>
                     <Link href={'/Dashboard/ReleventJobs'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaBriefcase />Relevant Jobs</Link>
                     <Link href='/Dashboard/CandidateNotifi' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><IoNotificationsOutline /> Notifications</Link>
-                    <Link href='/Dashboard/Profile' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 " ><MdManageAccounts /> Profile</Link>
+                    <Link href='/Profile' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 " ><MdManageAccounts /> Profile</Link>
                     <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaRegSave className='text-lg' />Save Jobs </Link>
                 </div>
                 }

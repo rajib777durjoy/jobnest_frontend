@@ -35,10 +35,10 @@ const Navbar = () => {
     },[])
     return (<>
         {
-            location == '/Dashboard' ? <div className='w-[100%] flex shadow shadow-gray-200'>
+            location == '/Dashboard' ? <div className='w-full flex shadow shadow-gray-200'>
                 <div className='flex flex-col ps-4 text-[#10B981] w-[15%]'>
                     <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
-                    <h1 className='text-md font-bold'>Job<span>Nest</span></h1>
+                    <h1 className='text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
                 </div>
                 <div className='flex justify-between items-center w-[85%] px-6'>
                     <div>
@@ -46,7 +46,7 @@ const Navbar = () => {
                         <p className='text-gray-400'>Here's what's happening with your jobs today</p>
                     </div>
                     <div className='flex items-center'>
-                        <img src={userData?.profile} className='w-[40px] h-[40px] rounded-full' alt='image' />
+                        <img src={userData?.profile} className='w-10 h-10 rounded-full' alt='image' />
                         <div className='ms-2'>
                             <h2 className='text-black font-medium text-xl'>{(userData?.name)?.split(" ")[0]}</h2>
                             <h3 className='text-gray-700 font-medium text-xs'>{userData?.role || 'Employer'}</h3>
@@ -58,12 +58,12 @@ const Navbar = () => {
                 {/* icon */}
                 <div className='flex flex-col items-center hover:text-[#10B981]'>
                     <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
-                    <h1 className='text-md font-bold'>Job<span>Nest</span></h1>
+                    <h1 className='text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
                 </div>
 
                 {/* End position */}
                 <div>
-                    {userData && <div className='flex items-center justify-between gap-4'><span><img src={userData?.profile} className='w-[40px] h-[40px] rounded-full' alt='image' /></span>
+                    {userData && <div className='flex items-center justify-between gap-4'><span><img src={userData?.profile} className='w-10 h-10 rounded-full' alt='image' /></span>
                         <span className='bg-[#10B981] text-black font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900' onClick={handleSingout}>Logout</span>
                     </div> || <div className='flex justify-between gap-2'>
                             <span className='text-black bg-[#10B981] font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900 ' onClick={() => router.push('/SignIn')} >LogIn</span>

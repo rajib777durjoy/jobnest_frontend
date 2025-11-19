@@ -32,7 +32,6 @@ const DetailsPage = ({ id }) => {
 
     return (
         <div className="w-full min-h-screen   py-10 px-4 md:px-12 lg:px-24">
-
             <div key={jobDetails.Apply_id} className="mb-10">
                 {/* Header Section */}
                 <div className="bg-green-600 text-white rounded-2xl shadow-lg p-8 mb-8 text-center">
@@ -47,7 +46,7 @@ const DetailsPage = ({ id }) => {
                     </div>
                 </div>
 
-                {/* Applicant Info */}
+                {/* Candidate Info Form */}
                 <div className="bg-white rounded-2xl shadow-md p-6 md:p-10  mb-8">
                     <h2 className="text-2xl font-semibold mb-6 text-gray-800 border-b pb-3 flex justify-between">Applicant Information <DropdownMenu className='w-[400px]'>
                         <DropdownMenuTrigger>...</DropdownMenuTrigger>
@@ -60,8 +59,8 @@ const DetailsPage = ({ id }) => {
                             <DropdownMenuItem>Subscription</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-
                     </h2>
+                    
                     <div className="grid md:grid-cols-2 gap-6 text-gray-700">
                         <p><span className="font-semibold">Full Name:</span> {jobDetails.fullName}</p>
                         <p className="flex items-center gap-2">
