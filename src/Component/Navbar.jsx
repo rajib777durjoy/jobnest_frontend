@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import useAxios_public from '@/Hook/useAxios_public';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '@/Redux/userSlice';
@@ -9,14 +9,13 @@ import { setUserData } from '@/Redux/userSlice';
 const Navbar = () => {
     const router = useRouter();
     const location = usePathname();
- 
     const axiosPublic = useAxios_public();
     const userData = useSelector(state => state.user?.userData);
     const dispatch = useDispatch()
-    console.log("user from redux", userData);
+    console.log("navbar user::", userData?.email);
     const handleSingout = async () => {
-        const res = await axiosPublic.post(`/api/signOut/${userData?.email}`, {});
-        // console.log('signout::', res?.data?.message)
+        const res = await axiosPublic.post(`/api/signOut/${userData?.email}`);
+        console.log('signout::', res?.data?.message)
         if (res.data?.message) {
             dispatch(setUserData(null))
             return router.push('/');
@@ -25,14 +24,22 @@ const Navbar = () => {
     }
     useEffect(() => {
         const current_user = async () => {
-            const getUser = await axiosPublic.get('/api/user/currentUser');
-            //  console.log('current user::',getUser?.data)
-            if (getUser?.data) {
-                dispatch(setUserData(getUser?.data))
+            console.log('hello world')
+            try {
+                
+                    const getUser = await axiosPublic.get('/api/user/currentUser');
+                    console.log('current user::', getUser?.data)
+                    if (getUser?.data) {
+                        dispatch(setUserData(getUser?.data))
+                    }
+                
+            } catch (err) {
+                dispatch(setUserData(null))
             }
+
         }
         current_user()
-    },[])
+    }, [])
     return (<>
         {
             location == '/Dashboard' ? <div className='w-full flex shadow shadow-gray-200'>

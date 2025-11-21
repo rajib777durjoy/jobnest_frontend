@@ -11,7 +11,7 @@ const AddJobPage = () => {
 //    console.log("userInfo::",userInfo?.email)
     const handleSubmit=async(e)=>{
      e.preventDefault();
-     const JobTitle= e.target.JobTitle.value;
+     const JobTitle= e.target.JobTitle.value.toLowerCase();
      const companyName= e.target.companyName.value;
      const location= e.target.location.value;
      const webLink= e.target.companyLink.value;
@@ -149,7 +149,7 @@ const AddJobPage = () => {
 
           {/* Submit Button */}
           <div className="md:col-span-2 flex justify-center mt-6 bg-green-500 rounded-md cursor-pointer hover:bg-green-700">
-            <button type="submit" className="btn  w-[100%] py-2 ">
+            <button type="submit" className="btn  w-full py-2 ">
               Add Job
             </button>
           </div>

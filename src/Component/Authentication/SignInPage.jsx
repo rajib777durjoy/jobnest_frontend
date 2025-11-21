@@ -7,26 +7,52 @@ import useAxios_public from '@/Hook/useAxios_public';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '@/Redux/userSlice';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '@/firebase.config';
 const SignInPage = () => {
-    const [email,setEmail]=useState('');
-    const [password,setPassword]=useState('');
-     const axiosPublic= useAxios_public();
-     const dispatch= useDispatch()
-     const route= useRouter()
-    const handleSubmit=(e)=>{
+    const axiosPublic = useAxios_public();
+    const dispatch = useDispatch();
+    const route = useRouter();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const provider = new GoogleAuthProvider();
+    
+    const handleSubmit = (e) => {
         e.preventDefault();
-    const submitform=async()=>{
-    const res= await axiosPublic.post('/api/signIn',{email,password});
-    console.log("response::",res.data)
-    dispatch(setUserData(res?.data))
-    if(res?.data?.message == "true"){
-        return route.push('/')
+        const submitform = async () => {
+            const res = await axiosPublic.post('/api/signIn', { email, password });
+            console.log("response::", res.data)
+            dispatch(setUserData(res?.data))
+            if (res?.data?.message == "true") {
+                return route.push('/')
+            }
+        }
+        submitform()
     }
-    }
-    submitform()
-    }
+    
+      const handleGoogleSubmit = async () => {
+            const res = await signInWithPopup(auth, provider);
+            const user = res.user;
+            console.log('google user', user)
+    
+            if (user?.email && user?.displayName) {
+                const googleSignIn = await axiosPublic.post('/api/googleSignIn', {
+                    name: user?.displayName,
+                    email: user?.email,
+                    photoUrl: user?.photoURL
+                })
+                console.log("respons::", googleSignIn.data);
+                dispatch(setUserData(googleSignIn?.data));
+                if (googleSignIn?.data) {
+                    return route.push('/');
+                }
+            }
+        };
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -42,7 +68,7 @@ const SignInPage = () => {
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            onChange={(e)=>setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             className="w-full px-4 py-2 rounded-lg bg-[#1f1f1f] border border-gray-700 focus:outline-none focus:border-green-500 transition"
                         />
@@ -53,7 +79,7 @@ const SignInPage = () => {
                         <input
                             type="password"
                             placeholder="Enter password"
-                            onChange={(e)=>setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                             value={password}
                             className="w-full px-4 py-2 rounded-lg bg-[#1f1f1f] border border-gray-700 focus:outline-none focus:border-green-500 transition"
                         />
@@ -84,8 +110,8 @@ const SignInPage = () => {
                 </div>
 
                 <div className="mt-6 space-y-3">
-                    <button className="w-full flex items-center justify-center gap-2 bg-[#1f1f1f] border border-gray-700 hover:border-green-500 rounded-lg py-2 transition">
-                        <span>Sign In with Google</span>
+                    <button onClick={()=>handleGoogleSubmit()} className="w-full flex items-center justify-center gap-2 bg-[#1f1f1f] border border-gray-700 hover:border-green-500 rounded-lg py-2 transition">
+                        <span >Sign In with Google</span>
                     </button>
                 </div>
             </motion.div>

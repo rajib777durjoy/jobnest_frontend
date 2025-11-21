@@ -1,30 +1,42 @@
 'use client'
 
+import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import useAxios_public from "@/Hook/useAxios_public";
-import { useSelector } from "react-redux";
+import TitlePage from "@/Hook/TitlePage";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
-const CandidateFrom = ({ id }) => {
+
+const ApplyForm = () => {
+    const { Job_id } = useParams();
+    console.log('jobId', Job_id)
     const useAxios = useAxios_public()
-    const userData= useSelector(state=>state.user?.userData)
+    const user = useSelector(state=>state.user?.userData);
+    
     const handleSubmitForm = async (e) => {
         e.preventDefault()
         const fullName = e.target.fullName.value;
-        const email = e.target.email.value;
         const JobTitle = e.target.JobTitle.value.toLowerCase();
+        const email = user?.email;
         const phone = e.target.phone.value;
         const loaction = e.target.location.value;
         const JobType = e.target.JobType.value;
         const salary = e.target.salary.value;
         const resume = e.target.resume.files[0];
         const description = e.target.description.value;
-        const data = { fullName, email, JobTitle, phone, loaction, JobType, salary, resume, description, Job_id: id };
+        const data = { fullName, email, JobTitle, phone, loaction, JobType, salary, resume, description,Job_id };
         console.log('data info:', data)
+        if(!user?.email){
+            console.log('userEmail is null')
+         return ;
+        }
         const res = await useAxios.post('/api/Jobs/JobSubmitForm', data, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         });
+
         if (res.data.success) {
             console.log(res.data.success)
             Swal.fire({
@@ -47,8 +59,12 @@ const CandidateFrom = ({ id }) => {
             });
         }
     }
-    return (
-        <form onSubmit={handleSubmitForm} className="grid grid-cols-1 md:grid-cols-2 gap-6 space-y-5">
+    return (<div className="w-[80%] mx-auto">
+        <div className="w-full mb-10 h-[50px]">
+            <TitlePage title={'Apply For This Position'}></TitlePage>
+        </div>
+
+        <form onSubmit={handleSubmitForm} className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6 space-y-5">
             {/*Full Name */}
             <div>
                 <label className="block font-semibold mb-2">Full Name</label>
@@ -69,7 +85,7 @@ const CandidateFrom = ({ id }) => {
                     name="email"
                     placeholder="name123@gmail.com"
                     className="input input-bordered w-full"
-                    defaultValue={userData?.email}
+                    defaultValue={user?.email}
                     required
                 />
             </div>
@@ -132,7 +148,7 @@ const CandidateFrom = ({ id }) => {
                 />
             </div>
 
-            {/* Deadline */}
+            {/* Resume */}
             <div>
                 <label className="block font-semibold mb-2">Resume (PDF)</label>
                 <input required type="file" name="resume" className="input input-bordered w-full" />
@@ -159,7 +175,9 @@ const CandidateFrom = ({ id }) => {
                 </button>
             </div>
         </form>
+    </div>
+
     );
 };
 
-export default CandidateFrom;
+export default ApplyForm;

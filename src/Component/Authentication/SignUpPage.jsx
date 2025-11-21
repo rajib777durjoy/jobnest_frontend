@@ -16,8 +16,8 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [Image, setImage] = useState(null);
     const axiosPublic = useAxios_public();
-    const dispatch= useDispatch()
-     const route= useRouter()
+    const dispatch = useDispatch()
+    const route = useRouter()
     const provider = new GoogleAuthProvider();
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,13 +27,17 @@ const SignUpPage = () => {
             formData.append("email", email);
             formData.append("password", password);
             formData.append('profile', Image);
-            const res = await axiosPublic.post('api/submitFrom', formData, {
+            const res = await axiosPublic.post('/api/submitFrom', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
             })
             console.log('respons::', res.data)
-            dispatch(setUserData(res.data))
+            if (res.data) {
+                dispatch(setUserData(res.data))
+                route.push('/')
+            }
+
         };
         formsubmit()
     }
@@ -43,20 +47,20 @@ const SignUpPage = () => {
         console.log('google user', user)
 
         if (user?.email && user?.displayName) {
-            const googleSignIn = await axiosPublic.post('/api/googleSignIn',{
+            const googleSignIn = await axiosPublic.post('/api/googleSignIn', {
                 name: user?.displayName,
                 email: user?.email,
                 photoUrl: user?.photoURL
             })
-            console.log("respons::",googleSignIn.data);
+            console.log("respons::", googleSignIn.data);
             dispatch(setUserData(googleSignIn?.data));
-            if(googleSignIn?.data){
-               return route.push('/');
+            if (googleSignIn?.data) {
+                return route.push('/');
             }
         }
     };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}

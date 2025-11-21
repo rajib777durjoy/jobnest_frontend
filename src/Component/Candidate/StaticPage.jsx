@@ -93,7 +93,7 @@ const StaticPage = () => {
 
             </div>
 
-            {ApplyJobs && <div className='hidden lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
+            {ApplyJobs && <div className='hidden py-4 lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
                 <Table className=''>
                     {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                     <TableHeader>

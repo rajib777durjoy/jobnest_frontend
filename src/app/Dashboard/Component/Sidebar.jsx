@@ -6,7 +6,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { MdManageAccounts } from "react-icons/md";
 import { PiBuildingOffice } from "react-icons/pi";
 import { FaPlus } from "react-icons/fa6";
-import { FaBriefcase, FaBuilding, FaChartLine, FaRegEnvelope, FaRegSave, FaUsers } from "react-icons/fa";
+import { FaBriefcase, FaChartLine, FaRegEnvelope, FaRegSave, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { CiViewList } from "react-icons/ci";
 import useAxios_public from '@/Hook/useAxios_public';
@@ -29,12 +29,12 @@ const Sidebar = () => {
         }
 
     }
-    const admin = userData?.role === 'admin';
-    const employer = userData?.role === 'employer';
-    const candidate = userData?.role === 'member';
-    // const admin = false;
-    // const employer = true;
-    // const candidate= false;
+    // const admin = userData?.role === 'admin';
+    // const employer = userData?.role === 'employer';
+    // const candidate = userData?.role === 'member';
+    const admin = true;
+    const employer = false;
+    const candidate= false;
 
     return (
         <aside className="w-[15%] h-screen fixed top-0 bg-white shadow shadow-gray-300 p-4">
@@ -42,10 +42,7 @@ const Sidebar = () => {
             <div className='flex flex-col justify-between h-[600px]'>
                 {admin && <div>
                     <Link href={'#'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
-                    <Link href='/Dashboard/Employers' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <FaBuilding className='text-lg' /> Employers
-                    </Link>
-                    <Link href='/Dashboard/Users' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                    <Link href='/Dashboard/Ad_userPage' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
                         <FaUsers className='text-lg' /> Users
                     </Link>
 
@@ -85,7 +82,7 @@ const Sidebar = () => {
                     <Link href={'/Dashboard/ReleventJobs'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaBriefcase />Relevant Jobs</Link>
                     <Link href='/Dashboard/CandidateNotifi' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><IoNotificationsOutline /> Notifications</Link>
                     <Link href='/Profile' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 " ><MdManageAccounts /> Profile</Link>
-                    <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaRegSave className='text-lg' />Save Jobs </Link>
+                    <Link href={'/Dashboard/SaveJobs'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaRegSave className='text-lg' />Save Jobs </Link>
                 </div>
                 }
 

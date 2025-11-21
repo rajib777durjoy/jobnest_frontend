@@ -4,14 +4,15 @@ import TitlePage from '@/Hook/TitlePage';
 import useAxios_public from '@/Hook/useAxios_public';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ReleventJobs = () => {
   const axiosPublic = useAxios_public();
   const [index, setIndex] = useState(0);
-  const router = useRouter();
-
+  const user = useSelector(state=>state.user?.userData);
+  console.log('user info::',user?.id)
   const { data: jobs = [] } = useQuery({
     queryKey: ['relevantData'],
     queryFn: async () => {
@@ -19,8 +20,9 @@ const ReleventJobs = () => {
       return res.data;
     },
   });
-  const handleSaveJob=async(id)=>{
-  const res = await axiosPublic.post(`/api/Jobs/savejob/${id}`);
+  const handleSaveJob=async(Job_id)=>{
+  const data= {Job_id,user_id:user?.id}
+  const res = await axiosPublic.post(`/api/Jobs/savejob`,data);
   console.log('ress::',res.data)
   }
 console.log('relevantJobs',jobs)
@@ -53,12 +55,12 @@ console.log('relevantJobs',jobs)
           {/* RIGHT CONTENT */}
           <div className="w-[75%] bg-white shadow rounded-xl p-8 border h-[90vh] overflow-y-auto">
             <div className="mb-6">
-              <h1
+              <Link href={`${jobs[index]?.webLink}`} target='_blank'><h1
                 className="text-3xl font-bold text-gray-900 cursor-pointer hover:underline hover:text-green-600 transition"
-                onClick={() => router.push(jobs[index]?.webLink)}
+                
               >
                 {jobs[index]?.companyName}
-              </h1>
+              </h1></Link>
               <p className="text-gray-600 mt-2">{jobs[index]?.email}</p>
             </div>
 
@@ -87,14 +89,18 @@ console.log('relevantJobs',jobs)
               <div>
                 <span className="font-semibold">Deadline:</span> {jobs[index]?.deadline}
               </div>
+
+              {/* Button Is (Apply and Save)  */}
               <div className='w-full flex gap-36 items-center  '>
-                <Link href={'/Dashboard/ApplyForm'}><h1 className='font-medium bg-green-700 hover:bg-green-900 text-white px-4 py-2 rounded-md'>Apply</h1></Link>
+                <Link href={`/Dashboard/ApplyForm/${jobs[index]?.Job_id}`}><h1 className='font-medium bg-green-700 hover:bg-green-900 text-white px-4 py-2 rounded-md'>Apply</h1></Link>
                 <h1 onClick={()=>handleSaveJob(jobs[index]?.Job_id)} className='font-medium border hover:outline-1 px-4 py-2 hover:font-bold  text-green-700 hover:text-green-800 rounded-lg'>Save </h1>
               </div>
+
               <div className="pt-4 border-t mt-4">
                 <h2 className="text-xl font-semibold mb-2">Job Description</h2>
                 <p className="leading-7 text-gray-800">{jobs[index]?.description}</p>
               </div>
+              
             </div>
           </div>
         </div>
