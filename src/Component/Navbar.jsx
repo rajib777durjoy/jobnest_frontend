@@ -42,7 +42,7 @@ const Navbar = () => {
     }, [])
     return (<>
         {
-            location == '/Dashboard' ? <div className='w-full flex shadow shadow-gray-200'>
+            location == '/Dashboard'  ? <div className='w-full flex shadow shadow-gray-200'>
                 <div className='flex flex-col ps-4 text-[#10B981] w-[15%]'>
                     <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
                     <h1 className='text-md text-green-600 font-bold'>Job<span>Nest</span></h1>

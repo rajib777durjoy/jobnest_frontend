@@ -41,25 +41,26 @@ const Sidebar = () => {
             <h1 className="h-[50px]"></h1>
             <div className='flex flex-col justify-between h-[600px]'>
                 {admin && <div>
-                    <Link href={'#'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
-                    <Link href='/Dashboard/Ad_userPage' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                    <Link href={'/AdminDashboard'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
+                    <Link href='/AdminDashboard/Admin_userpage' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
                         <FaUsers className='text-lg' /> Users
                     </Link>
 
-                    <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' />Post Job</Link>
-                    <Link href='/Dashboard/Analytics' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                    <Link href={'/AdminDashboard/PostJob'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' />Post Job</Link>
+                    <Link href='/AdminDashboard/Analytics' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
                         <FaChartLine className='text-lg' /> Analytics
                     </Link>
                     <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><PiBuildingOffice className='text-lg' />Company </Link>
-                    <Link href='/Dashboard/AdminNotifi' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <IoNotificationsOutline className='text-lg' /> Notifications
+                    <Link href='/AdminDashboard/AdminNotifi' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                        <IoNotificationsOutline className='text-lg' /> Message
                     </Link>
 
-                    <Link href='/Dashboard/Settings' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                    <Link href='/AdminDashboard/Settings' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
                         <FiSettings className='text-lg' /> Settings
                     </Link>
                 </div>
                 }
+
                 {employer && <div>
                     <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
                     <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' />Post Job</Link>
@@ -76,6 +77,7 @@ const Sidebar = () => {
                     <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><PiBuildingOffice className='text-lg' />Company </Link>
                 </div>
                 }
+                
                 {candidate && <div>
                     <Link href='/Dashboard' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  outline-0  rounded-md p-2  "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
                     <Link href='/Dashboard/ShowJobs' className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><CiViewList className='text-lg' />My Jobs</Link>

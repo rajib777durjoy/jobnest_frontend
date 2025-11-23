@@ -1,14 +1,13 @@
-
 import AddJobPage from '@/Component/randomJobs/AddJobPage';
 import React from 'react';
 
-const AddJob = () => {
+
+const PostJob = () => {
     return (
-        <div className=''>
-            <div className='w-full h-[70px]'></div>
+        <div>
             <AddJobPage></AddJobPage>
         </div>
     );
 };
 
-export default AddJob;
+export default PostJob;

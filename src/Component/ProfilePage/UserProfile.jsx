@@ -8,7 +8,6 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -20,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import useAxios_public from '@/Hook/useAxios_public';
 import { setUserData } from '@/Redux/userSlice';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 const UserProfile = () => {
     const userData = useSelector(state => state.user?.userData);
     const [open, setOpen] = useState(false)
@@ -61,7 +61,7 @@ const UserProfile = () => {
     //     "web developer,frontend developer,next.js developer,mern stack developer,React.js developer"
     // }
     const { data: user = [], refetch } = useQuery({
-        queryKey: [userData.id, 'userInfo'],
+        queryKey: [userData?.id, 'userInfo'],
         queryFn: async () => {
             const res = await useAxios.get('/api/user/currentUser');
             return res.data;
@@ -71,7 +71,7 @@ const UserProfile = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-
+        
         formData.append("name", e.target.name.value);
         formData.append("email", e.target.email.value);
         formData.append("title", e.target.title.value);
@@ -157,11 +157,11 @@ const UserProfile = () => {
 
                 </Dialog>
                 {user?.banner ? (
-                    <img
+                    <Link href={'/Banner'} ><img
                         src={user?.banner}
                         alt="Banner"
                         className="w-full h-full object-cover"
-                    />
+                    /></Link>
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-500 text-xl">
                         No Banner Added

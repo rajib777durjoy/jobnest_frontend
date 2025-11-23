@@ -14,7 +14,7 @@ import {
 import useAxios_public from '@/Hook/useAxios_public';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
-const Ad_userPage = () => {
+const Admin_userpage = () => {
      const useAxios = useAxios_public();
      const user= useSelector(state=>state.user?.userData);
      const {data:users=[]}=useQuery({
@@ -56,4 +56,4 @@ const Ad_userPage = () => {
     );
 };
 
-export default Ad_userPage;
+export default Admin_userpage;

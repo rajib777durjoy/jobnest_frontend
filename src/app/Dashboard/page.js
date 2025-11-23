@@ -1,5 +1,5 @@
 'use client'
-import AdminPage from "@/Component/Admin/AdminPage";
+
 import StaticPage from "@/Component/Candidate/StaticPage";
 import { useSelector } from "react-redux";
 
@@ -16,9 +16,7 @@ const DashboardHome =() => {
 //  console.log(admin,employer,candidate)
     return (
         <div className='w-full min-h-screen '>
-         {
-            admin && <AdminPage></AdminPage>
-         }
+         
          {candidate && <StaticPage></StaticPage> }
            
         </div>
