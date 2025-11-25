@@ -26,13 +26,13 @@ const Navbar = () => {
         const current_user = async () => {
             console.log('hello world')
             try {
-                
-                    const getUser = await axiosPublic.get('/api/user/currentUser');
-                    console.log('current user::', getUser?.data)
-                    if (getUser?.data) {
-                        dispatch(setUserData(getUser?.data))
-                    }
-                
+
+                const getUser = await axiosPublic.get('/api/user/currentUser');
+                console.log('current user::', getUser?.data)
+                if (getUser?.data) {
+                    dispatch(setUserData(getUser?.data))
+                }
+
             } catch (err) {
                 dispatch(setUserData(null))
             }
@@ -40,22 +40,27 @@ const Navbar = () => {
         }
         current_user()
     }, [])
+    const isUserDashboard = location === '/Dashboard';
+    const isAdminDashboard = location === '/AdminDashboard';
+    const isEmployerDashboard = location === '/EmployerDashboard';
+
+    const isDashboard = isUserDashboard || isAdminDashboard || isEmployerDashboard;
     return (<>
         {
-            location == '/Dashboard'  ? <div className='w-full flex shadow shadow-gray-200'>
-                <div className='flex flex-col ps-4 text-[#10B981] w-[15%]'>
-                    <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
-                    <h1 className='text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
+            isDashboard ? <div className='w-full flex shadow shadow-gray-200'>
+                <div className='flex flex-col ps-6 text-[#10B981] w-[15%]'>
+                    <img src={'/job-offer.png'} alt="logo" className='w-[25px] lg:w-[35px] h-[35px]' />
+                    <h1 className='text-xs lg:text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
                 </div>
                 <div className='flex justify-between items-center w-[85%] px-6'>
                     <div>
-                        <h1 className='text-2xl text-black'>Welcome back!</h1>
-                        <p className='text-gray-400'>Here's what's happening with your jobs today</p>
+                        <h1 className='text-lg lg:text-2xl text-black'>Welcome back!</h1>
+                        <p className='text-gray-400 text-xs lg:text-md'>Here's what's happening with your jobs today</p>
                     </div>
                     <div className='flex items-center'>
-                        <img src={userData?.profile} className='w-10 h-10 rounded-full' alt='image' />
+                        <img src={userData?.profile} className='w-[30px] h-[30px] lg:w-10 lg:h-10 rounded-full' alt='image' />
                         <div className='ms-2'>
-                            <h2 className='text-black font-medium text-xl'>{(userData?.name)?.split(" ")[0]}</h2>
+                            <h2 className='text-black font-medium text-sm lg:text-xl'>{(userData?.name)?.split(" ")[0]}</h2>
                             <h3 className='text-gray-700 font-medium text-xs'>{userData?.role || 'Employer'}</h3>
                         </div>
                     </div>
@@ -64,14 +69,14 @@ const Navbar = () => {
             </div> : <div className='w-[90%]  mx-auto h-[70px] flex items-center justify-between bg-transparent'>
                 {/* icon */}
                 <div className='flex flex-col items-center hover:text-[#10B981]'>
-                    <img src={'/job-offer.png'} alt="logo" className='w-[35px] h-[35px]' />
-                    <h1 className='text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
+                    <img src={'/job-offer.png'} alt="logo" className='w-[25px] lg:w-[35px] h-[25px] lg:h-[35px]' />
+                    <h1 className='text-xs lg:text-md text-green-600 font-bold'>Job<span>Nest</span></h1>
                 </div>
 
                 {/* End position */}
                 <div>
-                    {userData && <div className='flex items-center justify-between gap-4'><span><img src={userData?.profile} className='w-10 h-10 rounded-full' alt='image' /></span>
-                        <span className='bg-[#10B981] text-black font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900' onClick={handleSingout}>Logout</span>
+                    {userData && <div className='flex items-center justify-between gap-4'><span><img src={userData?.profile} className='w-[30px] lg:w-10 h-[30px] lg:h-10 rounded-full' alt='image' /></span>
+                        <span className='bg-[#10B981] text-black font-medium cursor-pointer text-xs lg:text-md rounded-md py-2 px-2 lg:px-4 hover:text-white hover:bg-green-700' onClick={handleSingout}>Logout</span>
                     </div> || <div className='flex justify-between gap-2'>
                             <span className='text-black bg-[#10B981] font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900 ' onClick={() => router.push('/SignIn')} >LogIn</span>
                             <span className='text-black bg-[#10B981] font-medium cursor-pointer rounded-md py-2 px-4 hover:text-white hover:bg-green-900 ' onClick={() => router.push('/SignUp')} >Register</span>

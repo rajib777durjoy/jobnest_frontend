@@ -15,22 +15,55 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import Link from 'next/link';
 import { FaBriefcase, FaBuilding, FaMapMarkerAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { MdDelete } from "react-icons/md";
+import { useQuery } from '@tanstack/react-query';
 const AdminStaticPage = () => {
     const userData = useSelector(state => state.user?.userData);
     const useAxios = useAxios_public();
-    const [ApplyJobs, setApplyJobs] = useState([]);
-    useEffect(() => {
-        const Get_recent_job = async () => {
-            const res = await useAxios.get(`/api/Jobs/Apply_jobs/${userData?.email}`);
-            console.log('jobs::', res.data);
-            setApplyJobs(res?.data)
-
+    const [status, setStatus] = useState("");
+    const [Job_id, setJobId] = useState(0)
+    const { data: jobs = [], isLoading, refetch } = useQuery({
+        queryKey: ['jobs', userData?.email],
+        queryFn: async () => {
+            const res = await useAxios.get(`/api/admin/postjobs`);
+            return res.data;
         }
-        Get_recent_job();
-    }, [userData?.email])
+    })
+
+    const {data:Application=[]}=useQuery({
+        queryKey:['application',userData?.email],
+        queryFn:async()=>{
+            const res = await useAxios.get('/api/admin/applications');
+           return res.data;
+        }
+    })
+    console.log('josdfdslfjdsf', jobs)
+    console.log('applicafjosdre:',Application)
+
+    const { data: update = [""] } = useQuery({
+        queryKey: ['status', status],
+        queryFn: async () => {
+            const res = await useAxios.patch(`/api/admin/update_status/${Job_id}?status=${status}`);
+            if (res.data?.message === 'update successfull') {
+                refetch();
+                return res.data?.message;
+            }
+        }
+    })
+
+    // console.log('update::', update)
+    if (isLoading) {
+        return <div>Loading....</div>
+    }
     return (
         <div>
             <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 '>
@@ -88,51 +121,94 @@ const AdminStaticPage = () => {
                         <LuActivity className='text-2xl lg:text-5xl text-white' />
                     </div>
                 </div>
+            </div>
 
+            <div className='w-full grid grid-cols-2 gap-4 mt-5'>
+                {/* Left side Box */}
+                <div className='w-full p-5 rounded-md shadow-md shadow-gray-400 '>
+                    <div className='flex justify-between items-center w-full p-5'>
+                        <div className=''>
+                            <span className='text-xl font-bold block'>Recent Post Jobs</span>
+                            <span className='text-md text-gray-500 font-medium'>Latest job postings</span>
+
+                        </div>
+                        <div>
+                            <Link href={'/AdminDashboard/AdminComponent/AllJob'} ><button className='cursor-pointer'>View All</button></Link>
+                        </div>
+                    </div>
+                    {
+                        jobs?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
+                            <div className='flex items-center gap-2'>
+                                <span>{item?.logo || 'Logo'}</span>
+                                <div >
+                                    <h2 className='text-md font-bold'>{item?.companyName}</h2>
+                                    <h2>{item?.JobTitle}</h2>
+                                    <h3 className='text-xs'>{new Date(item?.createdAt).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}</h3>
+                                </div>
+                            </div>
+                            <div>
+                                <Select value={item?.status} onValueChange={(value) => {
+                                    setStatus(value)
+                                    setJobId(item?.Job_id)
+                                }}  >
+                                    <SelectTrigger className="w-[180px]" disabled={item?.status === "Accept" || item?.status === 'Reject'}  >
+                                        <SelectValue placeholder="Status" />
+                                    </SelectTrigger>
+                                    <SelectContent >
+                                        <SelectItem value="Reject">Reject</SelectItem>
+                                        <SelectItem value="Accept">Accept</SelectItem>
+                                        <SelectItem value="Panding">Panding</SelectItem>
+                                    </SelectContent>
+                                </Select>
+
+                            </div>
+                        </div>)
+                    }
+
+                </div>
+                {/* Right side Box */}
+                <div className='w-full p-5 rounded-md shadow-md shadow-gray-400 '>
+                    <div className='flex justify-between items-center w-full p-5'>
+                        <div className=''>
+                            <span className='text-xl font-bold block'>Recent Applications</span>
+                            <span className='text-md text-gray-500 font-medium'>Latest candidate applications</span>
+
+                        </div>
+                        <div>
+                            <Link href={'/AdminDashboard/AdminComponent/AllJob'} ><button className='cursor-pointer'>View All</button></Link>
+                        </div>
+                    </div>
+                    {
+                        Application?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
+                            <div className='flex items-center gap-2'>
+                                {/* <span>{item?.logo || 'Logo'}</span> */}
+                                <div >
+                                    <h2 className='text-md font-bold'>{item?.fullName}</h2>
+                                    <h2>{item?.JobTitle}</h2>
+                                    <h3 className='text-xs'>{new Date(item?.createdAt).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}</h3>
+                                </div>
+                            </div>
+                            <div>
+                                <div>{item?.JobType}</div>
+                            </div>
+                        </div>)
+                    }
+
+                </div>
 
             </div>
 
-            {ApplyJobs && <div className='hidden py-4 lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
-                <Table className=''>
-                    {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="text-center">Id</TableHead>
-                            <TableHead className='text-center'>Name</TableHead>
-                            <TableHead className='text-center'>Email</TableHead>
-                            <TableHead className="text-center">JobTitle</TableHead>
-                            <TableHead className="text-center">JobType</TableHead>
-                            <TableHead className="text-center">Details</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody >
-                        {ApplyJobs.map((item, ind) => (
-                            <TableRow key={ind}>
-                                <TableCell className="font-medium text-center">{item.Apply_id}</TableCell>
-                                <TableCell className='text-center'>{item.fullName}</TableCell>
-                                <TableCell className='text-center'>{item.email}</TableCell>
-                                <TableCell className="text-center">{item.JobTitle}</TableCell>
-                                <TableCell className="text-center">{item.JobType}</TableCell>
-                                <TableCell className="text-center flex items-center justify-center"><Link className=' hover:text-green-400  text-xl' href={`/Dashboard/ApplyDetails/${item?.Apply_id}`}><IoEyeSharp /></Link></TableCell>
-
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    {/* <TableFooter>
-                        <TableRow>
-                            <TableCell colSpan={4} >Total</TableCell>
-                            <TableCell className="text-center">$2,500.00</TableCell>
-                        </TableRow>
-                    </TableFooter> */}
-                </Table>
-                <Link href={'/Dashboard/ShowJobs'} className='text-center hover:bg-green-600 block w-[20%] mx-auto shadow  py-1 rounded-lg cursor-pointer mt-4 bg-green-500 text-white'>
-                    View More
-                </Link>
-            </div> || <span className='text-xl block text-gray-400 text-center mt-10'>No Available Applied Job</span>}
-
             <div className='w-full grid md:grid-cols-2 gap-4 mt-4 lg:hidden '>
                 {
-                    ApplyJobs && ApplyJobs.map((item, ind) => (<div
+                    jobs && jobs.map((item, ind) => (<div
                         key={ind}
                         className="bg-white shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl border border-gray-100 p-6 flex flex-col justify-between"
                     >
@@ -171,19 +247,10 @@ const AdminStaticPage = () => {
                                 {item?.salary ? `${item.salary} BDT` : 'Negotiable'}
                             </p>
                         </div>
-
-                        {/* Bottom Button */}
-                        {/* <div className="mt-6">
-                            <Link href={`/Jobs/Details/${item?.Job_id}`}>
-                                <button className="btn btn-success w-full text-black bg-green-500 rounded-md py-1 hover:bg-green-600 font-semibold">
-                                    View Details
-                                </button>
-                            </Link>
-                        </div> */}
                     </div>)) || <span className='text-xl block text-gray-400 text-center mt-10'>No Available Applied Job</span>
                 }
             </div>
-            <Link href={'/Dashboard/ShowJobs'} className='text-center lg:hidden hover:bg-green-600 block w-[20%] mx-auto shadow  py-1 rounded-lg cursor-pointer mt-4 bg-green-500 text-white'>
+            <Link href={'/Dashboard/ShowJobs'} className='text-center lg:hidden hover:bg-green-600 block w-full mx-auto shadow  py-1 rounded-lg cursor-pointer mt-4 bg-green-500 text-white'>
                 View More
             </Link>
 

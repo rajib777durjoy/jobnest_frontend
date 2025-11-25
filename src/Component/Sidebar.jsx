@@ -41,22 +41,22 @@ const Sidebar = () => {
             <h1 className="h-[50px]"></h1>
             <div className='flex flex-col justify-between h-[600px]'>
                 {admin && <div>
-                    <Link href={'/AdminDashboard'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
+                    <Link href={'/AdminDashboard'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' /><span className='hidden lg:inline-block'>Dashboard</span></Link>
                     <Link href='/AdminDashboard/Admin_userpage' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <FaUsers className='text-lg' /> Users
+                        <FaUsers className='text-lg' /><span className='hidden lg:inline-block'>Users</span> 
                     </Link>
 
-                    <Link href={'/AdminDashboard/PostJob'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' />Post Job</Link>
+                    <Link href={'/AdminDashboard/PostJob'} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' /><span className='hidden lg:inline-block'>Post Job</span></Link>
                     <Link href='/AdminDashboard/Analytics' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <FaChartLine className='text-lg' /> Analytics
+                        <FaChartLine className='text-lg' /><span className='hidden lg:inline-block'>Analytics</span> 
                     </Link>
-                    <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><PiBuildingOffice className='text-lg' />Company </Link>
+                    <Link href={''} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><PiBuildingOffice className='text-lg' /><span className='hidden lg:inline-block'>Company</span> </Link>
                     <Link href='/AdminDashboard/AdminNotifi' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <IoNotificationsOutline className='text-lg' /> Message
+                        <IoNotificationsOutline className='text-lg' /><span className='hidden lg:inline-block'>Message</span> 
                     </Link>
 
                     <Link href='/AdminDashboard/Settings' className="text-lg text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
-                        <FiSettings className='text-lg' /> Settings
+                        <FiSettings className='text-lg' /><span className='hidden lg:inline-block'>Settings</span> 
                     </Link>
                 </div>
                 }
@@ -89,7 +89,7 @@ const Sidebar = () => {
                 }
 
                 <div className=''>
-                    <h1 onClick={handleSingout} className="text-lg text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><IoIosLogOut className='text-lg' />Logout</h1>
+                    <h1 onClick={handleSingout} className=" text-md lg:text-lg text-black flex items-center hover:bg-green-500 rounded-md lg:p-2 "><IoIosLogOut className='hidden lg:block text-lg' />Logout</h1>
                 </div>
 
             </div>
