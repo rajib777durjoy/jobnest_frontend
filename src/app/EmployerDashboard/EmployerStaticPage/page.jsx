@@ -1,4 +1,3 @@
-'use client'
 import React, { useState } from 'react';
 import { LuActivity } from "react-icons/lu";
 import { BsGraphUpArrow } from "react-icons/bs";
@@ -26,44 +25,19 @@ import Link from 'next/link';
 import { FaBriefcase, FaBuilding, FaMapMarkerAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { MdDelete } from "react-icons/md";
 import { useQuery } from '@tanstack/react-query';
-const AdminStaticPage = () => {
-    const userData = useSelector(state => state.user?.userData);
-    const useAxios = useAxios_public();
-    const [status, setStatus] = useState("");
-    const [Job_id, setJobId] = useState(0)
-    const { data: jobs = [], isLoading, refetch } = useQuery({
-        queryKey: ['jobs', userData?.email],
-        queryFn: async () => {
-            const res = await useAxios.get(`/api/admin/postjobs`);
-            return res.data;
-        }
-    })
 
-    const {data:Application=[]}=useQuery({
-        queryKey:['application',userData?.email],
-        queryFn:async()=>{
-            const res = await useAxios.get('/api/admin/applications');
-           return res.data;
-        }
-    })
-    console.log('josdfdslfjdsf', jobs)
-    console.log('applicafjosdre:',Application)
-
-    const { data: update = [""] } = useQuery({
-        queryKey: ['status', status],
-        queryFn: async () => {
-            const res = await useAxios.patch(`/api/admin/update_status/${Job_id}?status=${status}`);
-            if (res.data?.message === 'update successfull') {
-                refetch();
-                return res.data?.message;
-            }
-        }
-    })
-
-    // console.log('update::', update)
-    if (isLoading) {
-        return <div>Loading....</div>
+const EmployerStaticPage = () => {
+   const userData = useSelector(state=>state.user?.userData);
+   const useAxios = useAxios_public()
+   const {data:Jobs=[]}=useQuery({
+    queryKey:['Jobs',userData?.id],
+    queryFn:async()=>{
+        const res = await useAxios.get(`/api/employer/queryRecentJobs/${userData?.id}`)
+        console.log(res.data)
+        return res.data
     }
+   })
+  console.log("Jobs::",Jobs)
     return (
         <div>
             <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 '>
@@ -137,7 +111,7 @@ const AdminStaticPage = () => {
                         </div>
                     </div>
                     {
-                        jobs?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
+                        Jobs?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
                             <div className='flex items-center gap-2'>
                                 <span>{item?.logo || 'Logo'}</span>
                                 <div >
@@ -167,7 +141,7 @@ const AdminStaticPage = () => {
 
                             </div>
                         </div>)
-                    }
+                    } 
 
                 </div>
                 {/* Right side Box */}
@@ -182,10 +156,10 @@ const AdminStaticPage = () => {
                             <Link href={'/AdminDashboard/AdminComponent/AllJob'} ><button className='cursor-pointer'>View All</button></Link>
                         </div>
                     </div>
-                    {
+                    {/* {
                         Application?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
                             <div className='flex items-center gap-2'>
-                                {/* <span>{item?.logo || 'Logo'}</span> */}
+                               
                                 <div >
                                     <h2 className='text-md font-bold'>{item?.fullName}</h2>
                                     <h2>{item?.JobTitle}</h2>
@@ -200,56 +174,13 @@ const AdminStaticPage = () => {
                                 <div>{item?.JobType}</div>
                             </div>
                         </div>)
-                    }
+                    } */}
 
                 </div>
 
             </div>
 
-            <div className='w-full grid md:grid-cols-2 gap-4 mt-4 lg:hidden '>
-                {
-                    jobs && jobs.map((item, ind) => (<div
-                        key={ind}
-                        className="bg-white shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl border border-gray-100 p-6 flex flex-col justify-between"
-                    >
-                        {/* Top Section */}
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-600 flex items-center gap-1">
-                                    <FaBriefcase /> {item?.JobType || 'N/A'}
-                                </span>
-                                <span className="text-xs text-gray-400 flex items-center gap-1">
-                                    <MdDelete className='text-2xl text-black' />
-                                </span>
-                            </div>
-
-                            <h2 className="text-lg md:text-xl font-bold text-gray-800 mt-4">
-                                {item?.JobTitle || 'Untitled Job'}
-                            </h2>
-
-                            <p className="text-gray-500 mt-2 text-sm leading-relaxed line-clamp-3">
-                                {item?.description || 'No description provided.'}
-                            </p>
-                        </div>
-
-
-                        <div className="mt-5 space-y-2 text-sm text-gray-700">
-                            <p className="flex items-center gap-2">
-                                <FaBuilding className="text-green-600" />
-                                {item?.companyName || 'Company not specified'}
-                            </p>
-                            <p className="flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-sky-600" />
-                                {item?.location || 'Location not mentioned'}
-                            </p>
-                            <p className="flex items-center gap-2">
-                                <FaMoneyBillWave className="text-yellow-600" />
-                                {item?.salary ? `${item.salary} BDT` : 'Negotiable'}
-                            </p>
-                        </div>
-                    </div>)) || <span className='text-xl block text-gray-400 text-center mt-10'>No Available Applied Job</span>
-                }
-            </div>
+            
             <Link href={'/Dashboard/ShowJobs'} className='text-center lg:hidden hover:bg-green-600 block w-full mx-auto shadow  py-1 rounded-lg cursor-pointer mt-4 bg-green-500 text-white'>
                 View More
             </Link>
@@ -258,4 +189,4 @@ const AdminStaticPage = () => {
     );
 };
 
-export default AdminStaticPage;
+export default EmployerStaticPage;

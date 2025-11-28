@@ -1,68 +1,76 @@
 'use client'
 
 import useAxios_public from "@/Hook/useAxios_public";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const AddJobPage = () => {
+  const router = useRouter()
   const [JobType, setJobType] = useState('');
+  const [working_time, setWorking_time] = useState('');
   const useAxios = useAxios_public();
   //    const userInfo= useSelector(state=>state.user.userData);
   //    console.log("userInfo::",userInfo?.email)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const JobTitle = e.target.JobTitle.value.toLowerCase();
-    const companyName = e.target.companyName.value;
-    const location = e.target.location.value;
-    const webLink = e.target.companyLink.value;
-    const logo = e.target.logo.files[0];
-    const salary = e.target.salary.value;
-    const skills = e.target.skills.value;
-    const experience = e.target.experience.value;
-    const deadline = e.target.date.value;
-    const summary = e.target.summary.value;
-    const description = e.target.description.value;
-    if (!JobType) {
+
+    if (!JobType && working_time) {
       return alert('please select Jobtype')
     }
-    const data = {
-      JobTitle,
-      companyName,
-      webLink,
-      location,
-      JobType,
-      skills,
-      experience,
-      logo,
-      summary,
-      salary,
-      deadline,
-      description
-    }
-    const formData= new FormData();
-    formData.append('JobTitle',e.target.JobTitle.value.toLowerCase());
-    formData.append('companyName',e.target.companyName.value);
-    formData.append('location',e.target.location.value);
-    formData.append('webLink',e.target.companyLink.value);
-    formData.append('logo',e.target.logo.files[0]);
-    formData.append('salary',e.target.salary.value);
-    formData.append('skills',e.target.skills.value);
-    formData.append('experience',e.target.experience.value);
-    formData.append('deadline',e.target.date.value);
-    formData.append('summary',e.target.summary.value);
-    formData.append('description',e.target.description.value);
+    // const data = {
+    //   JobTitle,
+    //   companyName,
+    //   webLink,
+    //   location,
+    //   JobType,
+    //   working_time,
+    //   skills,
+    //   experience,
+    //   logo,
+    //   summary,
+    //   salary,
+    //   deadline,
+    //   description
+    // }
+    const formData = new FormData();
+    formData.append('JobTitle', e.target.JobTitle.value.toLowerCase());
+    formData.append('companyName', e.target.companyName.value);
+    formData.append('location', e.target.location.value);
+    formData.append('webLink', e.target.companyLink.value);
+    formData.append('logo', e.target.logo.files[0]);
+    formData.append('salary', e.target.salary.value);
+    formData.append('skills', e.target.skills.value);
+    formData.append('JobType', JobType),
+      formData.append('working_time', working_time)
+    formData.append('experience', e.target.experience.value);
+    formData.append('deadline', e.target.date.value);
+    formData.append('requirement', e.target.requirement.value);
+    formData.append('responsibility', e.target.responsibility.value);
+    formData.append('description', e.target.description.value);
 
-    console.log('info::', JobTitle, companyName, webLink, skills, experience, location, JobType, salary, deadline, description);
-    const res = await useAxios.post(`/api/Jobs/Jobpost`,formData , {
+
+    const res = await useAxios.post(`/api/Jobs/Jobpost`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       }
     });
     console.log('message', res.data)
+    if (res.data){
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: `Job Post successfull`,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      router.push('/')
+    }
   }
   return (
     <div className="min-h-screen bg-base-200 flex justify-center items-center ">
-      <div className="w-[80%] mx-auto  bg-base-100 shadow-md rounded-2xl  p-8 shadow-green-300 ">
+      <div className="max-w-[90%] mx-auto  bg-base-100 shadow-md rounded-2xl  p-8 shadow-green-300 ">
         <h2 className="text-3xl font-bold text-center text-primary mb-10 pb-6">
           Add New Job
         </h2>
@@ -154,14 +162,29 @@ const AddJobPage = () => {
             <label className="label">
               <span className="label-text font-semibold">Job Type</span>
             </label>
-            <select name="JobType" onChange={(e) => setJobType(e.target.value)} className="select select-bordered w-full">
+            <select name="JobType" onChange={(e) => setJobType(e.target?.value)} className="select select-bordered w-full">
               <option disabled={!JobType} selected>
                 Select job type
               </option>
+              <option>Remote</option>
+              <option>On-site</option>
+              <option>Hybrid</option>
+              <option>Internship</option>
+            </select>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">Working Time</span>
+            </label>
+            <select name="working_time" onChange={(e) => setWorking_time(e.target?.value)} className="select select-bordered w-full">
+              <option disabled={!working_time} selected>
+                Select Working Time
+              </option>
               <option>Full-time</option>
               <option>Part-time</option>
-              <option>Remote</option>
-              <option>Internship</option>
+              <option>Flexible Hours</option>
+              <option>Shift-based</option>
+              <option>Night shift</option>
             </select>
           </div>
 
@@ -187,17 +210,29 @@ const AddJobPage = () => {
             <input name="date" type="date" className="input input-bordered w-full p-2" required />
           </div>
 
-          {/* Summary */}
+          {/*Requirements */}
           <div className="form-control md:col-span-2">
             <label className="label">
-              <span className="label-text font-semibold">Job Summary</span>
+              <span className="label-text font-semibold">Job requirements</span>
             </label>
             <textarea
               className="textarea textarea-bordered w-full h-32"
-              name="summary"
-              placeholder="Write job responsibilities, requirements, and more..." required
+              name="requirement"
+              placeholder="Write job requirements and more..." required
             ></textarea>
           </div>
+          {/* responsibility   */}
+          <div className="form-control md:col-span-2">
+            <label className="label">
+              <span className="label-text font-semibold"> Responsibility</span>
+            </label>
+            <textarea
+              className="textarea textarea-bordered w-full h-32"
+              name="responsibility"
+              placeholder="Write job responsibilities and more..." required
+            ></textarea>
+          </div>
+
           <div className="form-control md:col-span-2">
             <label className="label">
               <span className="label-text font-semibold">Job Description</span>

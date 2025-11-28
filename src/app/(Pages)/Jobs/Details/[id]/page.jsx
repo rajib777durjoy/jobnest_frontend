@@ -109,7 +109,7 @@ const JobDetails = async ({ params }) => {
                 <h3 className="text-xl font-bold text-gray-800 text-center mb-6">
                     Apply Now
                 </h3>
-                <CandidateFrom id={id} />
+                <CandidateFrom id={id} JobTitle={data?.JobTitle} />
             </div>
         </div>
 

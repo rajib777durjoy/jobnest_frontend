@@ -1,11 +1,13 @@
 'use client'
 
 import useAxios_public from "@/Hook/useAxios_public";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
-const CandidateFrom = ({ id }) => {
+const CandidateFrom = ({ id ,JobTitle }) => {
     const useAxios = useAxios_public()
+    const router = useRouter()
     const userData= useSelector(state=>state.user?.userData)
     const handleSubmitForm = async (e) => {
         e.preventDefault()
@@ -34,6 +36,8 @@ const CandidateFrom = ({ id }) => {
                 showConfirmButton: false,
                 timer: 1500
             });
+            router.push('/')
+
         }
 
         if (res.data.message) {
@@ -81,6 +85,17 @@ const CandidateFrom = ({ id }) => {
                     name="JobTitle"
                     placeholder="EX:Frontend/Backend"
                     className="input input-bordered w-full"
+                    defaultValue={JobTitle}
+                />
+            </div>
+            <div>
+                <label className="block font-semibold mb-2">Working Time</label>
+                <input
+                    type="text"
+                    name="JobTitle"
+                    placeholder="EX:Frontend/Backend"
+                    className="input input-bordered w-full"
+                    defaultValue={working_time}
                 />
             </div>
 

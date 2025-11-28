@@ -18,40 +18,50 @@ import Link from 'next/link';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaBriefcase, FaBuilding, FaMapMarkerAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+
 const Admin_userpage = () => {
     const useAxios = useAxios_public();
     const user = useSelector(state => state.user?.userData);
-    const { data: users = [] } = useQuery({
+    const { data: users = [],refetch } = useQuery({
         queryKey: ['user', user?.email],
         queryFn: async () => {
             const res = await useAxios.get(`/api/admin/usersList/${user?.email}`)
             return res.data;
         }
     })
+
+    const handleRemoveUser= async(id)=>{
+     const res = await useAxios.delete(`/api/admin/userRemove/${id}`);
+     if(res.data?.message=== 'successfull'){
+       refetch();
+     }
+     console.log(res.data)
+    }
+
     console.log('user admin::', users)
     return (
         <div className='w-full min-h-screen'>
             {users && <div className='hidden py-4 text-black lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
                 <Table className=''>
                     <TableHeader>
-                        <TableRow>
+                       <TableRow>
                             <TableHead className="text-center">Id</TableHead>
                             <TableHead className='text-center'>Name</TableHead>
                             <TableHead className='text-center'>Email</TableHead>
-                            <TableHead className="text-center">JobTitle</TableHead>
-                            <TableHead className="text-center">JobType</TableHead>
+                            <TableHead className="text-center">Role</TableHead>
+                            <TableHead className="text-center">Remove</TableHead>
                             <TableHead className="text-center">Details</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody >
                         {users?.map((item, ind) => (
                             <TableRow key={ind}>
-                                <TableCell className="font-medium text-center">{item.id}</TableCell>
-                                <TableCell className='text-center'>{item.name}</TableCell>
-                                <TableCell className='text-center'>{item.email}</TableCell>
-                                <TableCell className="text-center">{item.title}</TableCell>
-                                <TableCell className="text-center">{item.JobType}</TableCell>
-                                <TableCell className="text-center flex items-center justify-center"><Link className=' hover:text-green-400  text-xl' href={`/userDetails/${item?.id}`}><IoEyeSharp /></Link></TableCell>
+                                <TableCell className="font-medium text-center">{item?.id}</TableCell>
+                                <TableCell className='text-center'>{item?.name}</TableCell>
+                                <TableCell className='text-center'>{item?.email}</TableCell>
+                                <TableCell className="text-center">{item?.role}</TableCell>
+                                <TableCell  className="text-center"><button onClick={()=>handleRemoveUser(item?.id)}><MdDelete className='text-2xl text-red-800' /></button></TableCell>
+                                <TableCell className="text-center flex items-center justify-center"><Link className='text-green-600 hover:text-green-800 text-2xl' href={`/userDetails/${item?.id}`}><IoEyeSharp /></Link></TableCell>
 
                             </TableRow>
                         ))}
@@ -70,7 +80,7 @@ const Admin_userpage = () => {
                                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-600 flex items-center gap-1">
                                     <FaBriefcase /> {item.fullName || 'N/A'}
                                 </span>
-                                <span className="text-xs text-gray-400 flex items-center gap-1">
+                                <span onClick={()=>handleRemoveUser(item?.id)} className="text-xs text-gray-400 flex items-center gap-1">
                                     <MdDelete className='text-2xl text-black' />
                                 </span>
                             </div>

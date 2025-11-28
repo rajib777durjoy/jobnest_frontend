@@ -82,7 +82,7 @@ const AllJob = () => {
                                         <SelectItem value="Panding">Panding</SelectItem>
                                     </SelectContent>
                                 </Select></TableCell>
-                                <TableCell className=""><Link className=' hover:text-green-900 text-green-500 flex ps-4 ' href={`/Dashboard/ApplyDetails/${item?.Job_id}`}><IoEyeSharp className='text-2xl' /></Link></TableCell>
+                                <TableCell className=""><Link className=' hover:text-green-900 text-green-500 flex ps-4 ' href={`/AdminDashboard/AdminComponent/Details/${item?.Job_id}`}><IoEyeSharp className='text-2xl' /></Link></TableCell>
                                 <TableCell className="flex justify-center"><button onClick={() => handleJobRemove(item?.Job_id)} className=' hover:text-red-900 text-red-600 pt-2  flex justify-center'><MdDeleteForever className='text-2xl' /></button></TableCell>
 
                             </TableRow>
