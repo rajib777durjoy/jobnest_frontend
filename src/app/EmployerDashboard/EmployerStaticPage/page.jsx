@@ -28,16 +28,37 @@ import { useQuery } from '@tanstack/react-query';
 
 const EmployerStaticPage = () => {
    const userData = useSelector(state=>state.user?.userData);
-   const useAxios = useAxios_public()
-   const {data:Jobs=[]}=useQuery({
+   const useAxios = useAxios_public();
+   const [activeJob,setActiveJob]=useState([])
+   const {data:Jobs=[],refetch}=useQuery({
     queryKey:['Jobs',userData?.id],
     queryFn:async()=>{
-        const res = await useAxios.get(`/api/employer/queryRecentJobs/${userData?.id}`)
+        const res = await useAxios.get(`/api/employer/queryRecentJobs/${userData?.email}`)
         console.log(res.data)
+        const job= res.data.filter(item=>item.activity === 'true')
+        setActiveJob(job)
         return res.data
     }
    })
-  console.log("Jobs::",Jobs)
+   const {data:ApplyList=[]}=useQuery({
+    queryKey:['applyList',userData?.id],
+    queryFn:async()=>{
+        const res = await useAxios.get(`/api/employer/JobApplyList/${userData?.email}`)
+        console.log(res.data);
+        return res.data
+    }
+   })
+   console.log('applyList::',ApplyList.length)
+   const handleChangeActivity=async(id,activity)=>{
+    const active = activity === 'true'?'false':'true'
+   const res= await useAxios.patch(`/api/employer/changeActivity/${id}/${active}`);
+   if(res.data?.message === 'updateSuccessfull'){
+     refetch ()
+   }
+   console.log('handlechange:::',res.data);
+   }
+  console.log("Jobs::",Jobs,activeJob)
+
     return (
         <div>
             <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 '>
@@ -47,7 +68,7 @@ const EmployerStaticPage = () => {
                     <div>
                         <h1 className='text-lg lg:text-xl text-white'>Active Jobs</h1>
                         <h2 className='text-xl lg:text-4xl text-white font-bold my-4'>
-                            3
+                           {activeJob.length}
                         </h2>
                         <div className=' text-white text-lg lg:text-xl '>
                             <span className='flex items-center gap-2'><BsGraphUpArrow /> 100%</span>
@@ -63,9 +84,9 @@ const EmployerStaticPage = () => {
                 <div className=' h-[150px]  shadow shadow-gray-400 rounded-md flex items-center justify-between bg-blue-500 px-4'>
                     {/* content */}
                     <div>
-                        <h1 className='text-lg lg:text-xl text-white'>Active Jobs</h1>
+                        <h1 className='text-lg lg:text-xl text-white'>Total Apply</h1>
                         <h2 className='text-xl lg:text-4xl text-white font-bold my-4'>
-                            3
+                           {ApplyList.length}
                         </h2>
                         <div className=' text-white text-lg lg:text-xl '>
                             <span className='flex items-center gap-2'><BsGraphUpArrow /> 100%</span>
@@ -83,7 +104,7 @@ const EmployerStaticPage = () => {
                     <div>
                         <h1 className='text-lg lg:text-xl text-white'>Active Jobs</h1>
                         <h2 className='text-xl lg:text-4xl text-white font-bold my-4'>
-                            3
+                            2
                         </h2>
                         <div className=' text-white text-lg lg:text-xl '>
                             <span className='flex items-center gap-2'><BsGraphUpArrow /> 100%</span>
@@ -113,7 +134,7 @@ const EmployerStaticPage = () => {
                     {
                         Jobs?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
                             <div className='flex items-center gap-2'>
-                                <span>{item?.logo || 'Logo'}</span>
+                                <span className='w-[50px] h-[50px] flex items-center '><img className='rounded-lg w-full h-full' src={item?.logo} /></span>
                                 <div >
                                     <h2 className='text-md font-bold'>{item?.companyName}</h2>
                                     <h2>{item?.JobTitle}</h2>
@@ -124,21 +145,8 @@ const EmployerStaticPage = () => {
                                     })}</h3>
                                 </div>
                             </div>
-                            <div>
-                                <Select value={item?.status} onValueChange={(value) => {
-                                    setStatus(value)
-                                    setJobId(item?.Job_id)
-                                }}  >
-                                    <SelectTrigger className="w-[180px]" disabled={item?.status === "Accept" || item?.status === 'Reject'}  >
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent >
-                                        <SelectItem value="Reject">Reject</SelectItem>
-                                        <SelectItem value="Accept">Accept</SelectItem>
-                                        <SelectItem value="Panding">Panding</SelectItem>
-                                    </SelectContent>
-                                </Select>
-
+                            <div onClick={()=>handleChangeActivity(item?.Job_id,item?.activity)}>
+                                <button className={`shadow rounded-xl ${item?.activity ==='true'?'bg-green-300':'bg-red-300'}  px-4 py-1 text-black font-medium`}>{item?.activity === 'true' ? "Active" : "Close"}</button>
                             </div>
                         </div>)
                     } 
@@ -153,11 +161,11 @@ const EmployerStaticPage = () => {
 
                         </div>
                         <div>
-                            <Link href={'/AdminDashboard/AdminComponent/AllJob'} ><button className='cursor-pointer'>View All</button></Link>
+                            <Link href={'/EmployerDashboard/ApplyList'} ><button className='cursor-pointer'>View All</button></Link>
                         </div>
                     </div>
-                    {/* {
-                        Application?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
+                    {
+                        ApplyList?.map((item, ind) => <div key={ind} className='w-full h-[70px] my-4 flex items-center justify-between px-5  rounded-md shadow  shadow-green-500 '>
                             <div className='flex items-center gap-2'>
                                
                                 <div >
@@ -174,7 +182,7 @@ const EmployerStaticPage = () => {
                                 <div>{item?.JobType}</div>
                             </div>
                         </div>)
-                    } */}
+                    }
 
                 </div>
 

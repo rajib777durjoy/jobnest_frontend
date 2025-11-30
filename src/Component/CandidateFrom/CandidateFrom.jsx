@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
-const CandidateFrom = ({ id ,JobTitle }) => {
+const CandidateFrom = ({ id ,Title,working_time,JobType,ownerEmail}) => {
     const useAxios = useAxios_public()
     const router = useRouter()
     const userData= useSelector(state=>state.user?.userData)
@@ -13,14 +13,14 @@ const CandidateFrom = ({ id ,JobTitle }) => {
         e.preventDefault()
         const fullName = e.target.fullName.value;
         const email = e.target.email.value;
-        const JobTitle = e.target.JobTitle.value.toLowerCase();
+        const JobTitle = Title.toLowerCase();
         const phone = e.target.phone.value;
         const loaction = e.target.location.value;
         const JobType = e.target.JobType.value;
         const salary = e.target.salary.value;
         const resume = e.target.resume.files[0];
         const description = e.target.description.value;
-        const data = { fullName, email, JobTitle, phone, loaction, JobType, salary, resume, description, Job_id: id };
+        const data = { fullName, email, JobTitle, phone, loaction, JobType,ownerEmail, salary, resume, description, Job_id: id };
         console.log('data info:', data)
         const res = await useAxios.post('/api/Jobs/JobSubmitForm', data, {
             headers: {
@@ -85,7 +85,7 @@ const CandidateFrom = ({ id ,JobTitle }) => {
                     name="JobTitle"
                     placeholder="EX:Frontend/Backend"
                     className="input input-bordered w-full"
-                    defaultValue={JobTitle}
+                    defaultValue={Title}
                 />
             </div>
             <div>
@@ -127,11 +127,8 @@ const CandidateFrom = ({ id ,JobTitle }) => {
             <div>
                 <label className="block font-semibold mb-2">Job Type</label>
                 <select required className="select select-bordered w-full" name="JobType">
-                    <option>Select Type</option>
-                    <option>Full-time</option>
-                    <option>Part-time</option>
-                    <option>Remote</option>
-                    <option>Internship</option>
+                    <option>{JobType}</option>
+                     
                 </select>
             </div>
 

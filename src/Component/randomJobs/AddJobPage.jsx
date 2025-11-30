@@ -43,7 +43,7 @@ const AddJobPage = () => {
     formData.append('salary', e.target.salary.value);
     formData.append('skills', e.target.skills.value);
     formData.append('JobType', JobType),
-      formData.append('working_time', working_time)
+    formData.append('working_time', working_time)
     formData.append('experience', e.target.experience.value);
     formData.append('deadline', e.target.date.value);
     formData.append('requirement', e.target.requirement.value);
@@ -57,7 +57,7 @@ const AddJobPage = () => {
       }
     });
     console.log('message', res.data)
-    if (res.data){
+    if (res.data) {
       Swal.fire({
         position: "top-center",
         icon: "success",
@@ -163,7 +163,7 @@ const AddJobPage = () => {
               <span className="label-text font-semibold">Job Type</span>
             </label>
             <select name="JobType" onChange={(e) => setJobType(e.target?.value)} className="select select-bordered w-full">
-              <option disabled={!JobType} selected>
+              <option value={JobType} selected>
                 Select job type
               </option>
               <option>Remote</option>

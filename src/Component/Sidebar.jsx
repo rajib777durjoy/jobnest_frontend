@@ -64,7 +64,7 @@ const Sidebar = () => {
                 {employer && <div>
                     <Link href={'/EmployerDashboard'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><HiMiniSquares2X2 className='text-lg' /><span className='hidden lg:inline-block'>Dashboard</span> </Link>
                     <Link href={'/EmployerDashboard/PostJob'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaPlus className='text-lg' /><span className='hidden lg:inline-block'>Post Job</span></Link>
-                    <Link href={'/EmployerDashboard/manageJob'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><MdManageAccounts className='text-lg' /><span className='hidden lg:inline-block'>Manage Job</span></Link>
+                    <Link href={'/EmployerDashboard/ManageJob'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><MdManageAccounts className='text-lg' /><span className='hidden lg:inline-block'>Manage Job</span></Link>
                     <Link href='/EmployerDashboard/Analytics' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2 ">
                         <FaChartLine className='text-lg' /><span className='hidden lg:inline-block'>Analytics</span>
                     </Link>
