@@ -29,18 +29,18 @@ const ApplyList = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then(async(result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 const res = await useAxios.delete(`/api/employer/applyjobRemove/${apply_id}`);
                 if (res.data.message === 'delete successfull') {
                     Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                });
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
                     refetch()
                 }
-                
+
             }
         });
 
@@ -69,9 +69,18 @@ const ApplyList = () => {
                                 <TableCell className="font-medium text-center">{item?.Job_id}</TableCell>
                                 <TableCell className='text-center'>{item?.fullName}</TableCell>
                                 <TableCell className="text-center">{item?.JobTitle}</TableCell>
-                                <TableCell className="text-center mx-auto"><Select className='text-center' value={item?.status} onValueChange={(value) => {
-                                    setStatus(value)
-                                    setJobId(item?.Job_id)
+                                <TableCell className="text-center mx-auto"><Select className='text-center' value={item?.status} onValueChange={async (value) => {
+                                    const res = await useAxios.patch(`/api/employer/updateStatus/${item?.Apply_id}/${item?.Job_id}/?status=${value}`);
+                                    if (res.data.message === 'update successfull' || res.data.message === 'Reject successfull') {
+                                        // console.log('successfull')
+                                        Swal.fire({
+                                            position: "top-center",
+                                            icon: "success",
+                                            title: res.data?.message,
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        });
+                                    }
                                 }}  >
                                     <SelectTrigger className="w-[180px]" disabled={item?.status === "Accept" || item?.status === 'Reject'}  >
                                         <SelectValue placeholder="Status" />
