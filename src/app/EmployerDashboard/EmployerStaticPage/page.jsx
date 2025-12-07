@@ -34,7 +34,7 @@ const EmployerStaticPage = () => {
     queryKey:['Jobs',userData?.id],
     queryFn:async()=>{
         const res = await useAxios.get(`/api/employer/queryRecentJobs/${userData?.email}`)
-        console.log(res.data)
+        // console.log(res.data)
         const job= res.data.filter(item=>item.activity === 'true')
         setActiveJob(job)
         return res.data
@@ -44,20 +44,20 @@ const EmployerStaticPage = () => {
     queryKey:['applyList',userData?.id],
     queryFn:async()=>{
         const res = await useAxios.get(`/api/employer/JobApplyList/${userData?.email}`)
-        console.log(res.data);
+        // console.log(res.data);
         return res.data
     }
    })
-   console.log('applyList::',ApplyList.length)
+//    console.log('applyList::',ApplyList.length)
    const handleChangeActivity=async(id,activity)=>{
     const active = activity === 'true'?'false':'true'
    const res= await useAxios.patch(`/api/employer/changeActivity/${id}/${active}`);
    if(res.data?.message === 'updateSuccessfull'){
      refetch ()
    }
-   console.log('handlechange:::',res.data);
+//    console.log('handlechange:::',res.data);
    }
-  console.log("Jobs::",Jobs,activeJob)
+//   console.log("Jobs::",Jobs,activeJob)
 
     return (
         <div>

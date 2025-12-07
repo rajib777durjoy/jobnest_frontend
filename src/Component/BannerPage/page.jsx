@@ -12,7 +12,7 @@ const BannerPage = () => {
     // Handle file select
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        console.log(preview)
+        // console.log(preview)
         if (!file) return;
         form.append("banner", file)
         // axios.post("/api/uploadBanner", form)

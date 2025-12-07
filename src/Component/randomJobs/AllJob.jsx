@@ -19,14 +19,14 @@ const AllJob = () => {
         const res = await useAxios.get('/api/Jobs/Joblist');
         setJoblist(res.data);
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        // console.error('Error fetching jobs:', error);
       }
     };
     handleGetTheJob();
   }, [useAxios]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-green-50 py-12">
+    <div className="min-h-screen bg-linear-to-br from-sky-50 to-green-50 py-12">
       <div className="w-[90%] mx-auto text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
           Explore Recent Jobs

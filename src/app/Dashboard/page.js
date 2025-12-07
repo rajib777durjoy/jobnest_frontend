@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const DashboardHome =() => {
  const userData = useSelector(state => state.user?.userData);
- console.log('user',userData)
+//  console.log('user',userData)
 //  const admin= userData?.role === 'admin';
 //  const employer= userData?.role === 'employer';
 //  const candidate= userData?.role === 'member';

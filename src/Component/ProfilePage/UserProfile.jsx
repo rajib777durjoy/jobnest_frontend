@@ -85,19 +85,19 @@ const UserProfile = () => {
         // console.log('datasfdsfsdf', dataInfo)
         const profileUpdate = async () => {
             try {
-                console.log('function call')
+                // console.log('function call')
                 const res = await useAxios.put('/api/user/profileUpdate', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     }
                 });
-                console.log(res.data)
+                // console.log(res.data)
 
                 dispatch(setUserData(res.data))
                 refetch()
                 setOpen(false)
             } catch (err) {
-                console.log(err)
+                // console.log(err)
                 setOpen(false)
             }
 

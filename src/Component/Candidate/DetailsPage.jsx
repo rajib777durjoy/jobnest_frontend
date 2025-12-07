@@ -22,7 +22,7 @@ const DetailsPage = ({ id }) => {
         const fetchData = async () => {
             if (id) {
                 const res = await useAxios.get(`/api/Jobs/applyDetails/${id}`);
-                console.log('JObDetails', res.data[0])
+                // console.log('JObDetails', res.data[0])
                 setJobDetails(res.data[0]);
             }
         };

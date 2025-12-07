@@ -56,7 +56,7 @@ const AddJobPage = () => {
         'Content-Type': 'multipart/form-data',
       }
     });
-    console.log('message', res.data)
+    // console.log('message', res.data)
     if (res.data) {
       Swal.fire({
         position: "top-center",

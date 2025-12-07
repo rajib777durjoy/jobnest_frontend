@@ -46,8 +46,8 @@ const AdminStaticPage = () => {
            return res.data;
         }
     })
-    console.log('josdfdslfjdsf', jobs)
-    console.log('applicafjosdre:',Application)
+    // console.log('josdfdslfjdsf', jobs)
+    // console.log('applicafjosdre:',Application)
 
     const { data: update = [""] } = useQuery({
         queryKey: ['status', status],

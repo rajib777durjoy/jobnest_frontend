@@ -23,7 +23,7 @@ const SignInPage = () => {
         e.preventDefault();
         const submitform = async () => {
             const res = await axiosPublic.post('/api/signIn', { email, password });
-            console.log("response::", res.data)
+            // console.log("response::", res.data)
             dispatch(setUserData(res?.data))
             if (res?.data?.message == "true") {
                 return route.push('/')
@@ -35,7 +35,7 @@ const SignInPage = () => {
       const handleGoogleSubmit = async () => {
             const res = await signInWithPopup(auth, provider);
             const user = res.user;
-            console.log('google user', user)
+            // console.log('google user', user)
     
             if (user?.email && user?.displayName) {
                 const googleSignIn = await axiosPublic.post('/api/googleSignIn', {
@@ -43,7 +43,7 @@ const SignInPage = () => {
                     email: user?.email,
                     photoUrl: user?.photoURL
                 })
-                console.log("respons::", googleSignIn.data);
+                // console.log("respons::", googleSignIn.data);
                 dispatch(setUserData(googleSignIn?.data));
                 if (googleSignIn?.data) {
                     return route.push('/');

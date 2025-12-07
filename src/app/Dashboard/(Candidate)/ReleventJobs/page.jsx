@@ -12,7 +12,7 @@ const ReleventJobs = () => {
   const axiosPublic = useAxios_public();
   const [index, setIndex] = useState(0);
   const user = useSelector(state=>state.user?.userData);
-  console.log('user info::',user?.id)
+  // console.log('user info::',user?.id)
   const { data: jobs = [] } = useQuery({
     queryKey: ['relevantData'],
     queryFn: async () => {
@@ -23,9 +23,9 @@ const ReleventJobs = () => {
   const handleSaveJob=async(Job_id)=>{
   const data= {Job_id,user_id:user?.id}
   const res = await axiosPublic.post(`/api/Jobs/savejob`,data);
-  console.log('ress::',res.data)
+  // console.log('ress::',res.data)
   }
-console.log('relevantJobs',jobs)
+// console.log('relevantJobs',jobs)
   return (
     <div className="min-h-screen bg-gray-50">
       <TitlePage title={'Recommended Jobs for You'} subTitle={'Smarter job suggestions tailored to your professional background'} />

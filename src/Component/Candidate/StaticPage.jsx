@@ -26,7 +26,7 @@ const StaticPage = () => {
     useEffect(() => {
         const Get_recent_job = async () => {
             const res = await useAxios.get(`/api/Jobs/Apply_jobs/${userData?.email}`);
-            console.log('jobs::', res.data);
+            // console.log('jobs::', res.data);
             setApplyJobs(res?.data)
 
         }

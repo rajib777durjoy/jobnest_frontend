@@ -22,19 +22,17 @@ const Sidebar = () => {
     const dispatch = useDispatch()
     const handleSingout = async () => {
         const res = await axiosPublic.post(`/api/signOut/${userData?.email}`, {});
-        // console.log('signout::', res?.data?.message)
+
         if (res.data?.message) {
             dispatch(setUserData(null))
             return router.push('/');
         }
 
     }
-    // const admin = userData?.role === 'admin';
-    // const employer = userData?.role === 'employer';
-    // const candidate = userData?.role === 'member';
-    const admin = false;
-    const employer = true;
-    const candidate= false;
+    const admin = userData?.role === 'admin';
+    const employer = userData?.role === 'employer';
+    const candidate = userData?.role === 'member';
+    
 
     return (
         <aside className="w-[15%] h-screen fixed top-0 bg-white shadow shadow-gray-300 p-4">
@@ -51,7 +49,7 @@ const Sidebar = () => {
                         <FaChartLine className='text-lg' /><span className='hidden lg:inline-block'>Analytics</span> 
                     </Link>
 
-                    <Link href='/AdminDashboard/AdminNotifi' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
+                    <Link href='/AdminDashboard/Notifications' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2">
                         <IoNotificationsOutline className='text-lg' /><span className='hidden lg:inline-block'>Message</span> 
                     </Link>
 
@@ -68,10 +66,7 @@ const Sidebar = () => {
                     <Link href='/EmployerDashboard/Analytics' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2 ">
                         <FaChartLine className='text-lg' /><span className='hidden lg:inline-block'>Analytics</span>
                     </Link>
-                    <Link href='/EmployerDashboard/Messages' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2 ">
-                        <FaRegEnvelope className='text-lg' /><span className='hidden lg:inline-block'>Messages</span>
-                    </Link>
-                    <Link href='/EmployerDashboard/EmployerNotifi' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2 ">
+                    <Link href='/EmployerDashboard/Notifications' className="text-md text-black flex items-center hover:bg-green-500 gap-2 rounded-md p-2 ">
                         <IoNotificationsOutline className='text-lg' /><span className='hidden lg:inline-block'>Notifications</span>
                     </Link>
                     <Link href={'/EmployerDashboard/Company'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><PiBuildingOffice className='text-lg' /><span className='hidden lg:inline-block'>Company profile</span> </Link>
@@ -82,7 +77,7 @@ const Sidebar = () => {
                     <Link href='/Dashboard' className="text-md text-black flex items-center hover:bg-green-500 gap-2  outline-0  rounded-md p-2  "><HiMiniSquares2X2 className='text-lg' />Dashboard</Link>
                     <Link href='/Dashboard/ShowJobs' className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><CiViewList className='text-lg' />My Jobs</Link>
                     <Link href={'/Dashboard/ReleventJobs'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaBriefcase />Relevant Jobs</Link>
-                    <Link href='/Dashboard/CandidateNotifi' className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><IoNotificationsOutline /> Notifications</Link>
+                    <Link href='/Dashboard/Notifications' className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><IoNotificationsOutline /> Notifications</Link>
                     <Link href='/Profile' className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 " ><MdManageAccounts /> Profile</Link>
                     <Link href={'/Dashboard/SaveJobs'} className="text-md text-black flex items-center hover:bg-green-500 gap-2  rounded-md p-2 "><FaRegSave className='text-lg' />Save Jobs </Link>
                 </div>

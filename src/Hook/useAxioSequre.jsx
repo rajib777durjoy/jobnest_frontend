@@ -19,7 +19,7 @@ const userData = useSelector(state => state.user?.userData)
         instance.interceptors.response.use((response) => {
             return response;
         }, async (erro) => {
-            console.log("axios Error", erro)
+            // console.log("axios Error", erro)
             const status = erro?.response?.status;
             if (status === 401 || status === 403) {
                 const res = await axiosPublic.post(`/api/signOut/${userData?.email}`, {});

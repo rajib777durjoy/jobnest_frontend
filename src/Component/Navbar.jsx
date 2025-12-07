@@ -12,10 +12,10 @@ const Navbar = () => {
     const axiosPublic = useAxios_public();
     const userData = useSelector(state => state.user?.userData);
     const dispatch = useDispatch()
-    console.log("navbar user::", userData?.email);
+    // console.log("navbar user::", userData?.email);
     const handleSingout = async () => {
         const res = await axiosPublic.post(`/api/signOut/${userData?.email}`);
-        console.log('signout::', res?.data?.message)
+        // console.log('signout::', res?.data?.message)
         if (res.data?.message) {
             dispatch(setUserData(null))
             return router.push('/');
@@ -28,7 +28,7 @@ const Navbar = () => {
             try {
 
                 const getUser = await axiosPublic.get('/api/user/currentUser');
-                console.log('current user::', getUser?.data)
+                // console.log('current user::', getUser?.data)
                 if (getUser?.data) {
                     dispatch(setUserData(getUser?.data))
                 }

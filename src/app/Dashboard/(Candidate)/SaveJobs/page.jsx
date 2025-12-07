@@ -18,16 +18,16 @@ import useAxios_public from '@/Hook/useAxios_public';
 const SaveJobs = () => {
     const user = useSelector(state => state.user?.userData);
     const useAxios = useAxios_public();
-    console.log(user)
+    // console.log(user)
     const { data: saveJob = [] } = useQuery({
         queryKey: ['saveJob',user?.email],
         queryFn: async () => {
             const res = await useAxios.get(`/api/Jobs/saveJoblist/${user?.id}`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         }
     })
-    console.log('saveJoblist::', saveJob)
+    // console.log('saveJoblist::', saveJob)
     return (
         <div className='w-full min-h-screen'>
             {saveJob && <div className='hidden py-4 lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>

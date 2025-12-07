@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/Component/Navbar";
 import Providers from "@/Provider/Provider";
 import TanstackProvider from "@/TanstackProvider/page";
+import SocketProvider from "@/Provider/SocketProvider";
 
 
 const geistSans = Geist({
@@ -23,23 +24,24 @@ export const metadata = {
 
 
 export default function RootLayout({ children }) {
-  
+
   return (
     <html lang="en">
 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      > 
-      <TanstackProvider>
-        <Providers>
-            <nav className="w-full z-50 fixed top-0 right-0 left-0  text-[#F9FAFB]">
-              <Navbar></Navbar>
-            </nav>
-            <main className="">
-              
-              {children}
-            </main>
-        </Providers>
+      >
+        <TanstackProvider>
+          <Providers>
+            <SocketProvider>
+              <nav className="w-full z-50 fixed top-0 right-0 left-0  text-[#F9FAFB]">
+                <Navbar></Navbar>
+              </nav>
+              <main className="">
+                {children}
+              </main>
+            </SocketProvider>
+          </Providers>
         </TanstackProvider>
       </body>
 

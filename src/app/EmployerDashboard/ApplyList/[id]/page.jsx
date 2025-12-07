@@ -8,7 +8,7 @@ import React from 'react';
 
 const ApplyDetails = () => {
     const { id } = useParams();
-    console.log(id)
+    // console.log(id)
     const useAxios = useAxios_public();
     const { data: ApplyData = [],refetch,isPending } = useQuery({
         queryKey: ['applyData', id],
@@ -70,7 +70,7 @@ const ApplyDetails = () => {
                         <div className="p-5 bg-gray-50 rounded-xl shadow-sm">
                             <p className="text-sm text-gray-500 py-2">Requset</p>
                             <Select className='text-center' value={job?.status} onValueChange={async(value) => {
-                               console.log('hello world ',value)
+                            //    console.log('hello world ',value)
                                const res = await useAxios.patch(`/api/employer/updateStatus/${value}/${job?.Apply_id}`)
                                if(res.data.message === 'update successfull'){
                                  refetch()

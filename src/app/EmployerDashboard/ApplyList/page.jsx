@@ -45,7 +45,7 @@ const ApplyList = () => {
         });
 
     }
-    console.log('apply data::', ApplyData)
+    // console.log('apply data::', ApplyData)
     return (
         <div>
             <div className='text-xl lg:text-4xl font-bold '>Job Management</div>

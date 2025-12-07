@@ -35,10 +35,10 @@ const Admin_userpage = () => {
      if(res.data?.message=== 'successfull'){
        refetch();
      }
-     console.log(res.data)
+    //  console.log(res.data)
     }
 
-    console.log('user admin::', users)
+    // console.log('user admin::', users)
     return (
         <div className='w-full min-h-screen'>
             {users && <div className='hidden py-4 text-black lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>

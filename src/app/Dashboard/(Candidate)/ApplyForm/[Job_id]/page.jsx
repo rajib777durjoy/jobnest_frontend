@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 const ApplyForm = () => {
     const { Job_id } = useParams();
-    console.log('jobId', Job_id)
+    // console.log('jobId', Job_id)
     const useAxios = useAxios_public()
     const user = useSelector(state=>state.user?.userData);
     
@@ -26,9 +26,9 @@ const ApplyForm = () => {
         const resume = e.target.resume.files[0];
         const description = e.target.description.value;
         const data = { fullName, email, JobTitle, phone, loaction, JobType, salary, resume, description,Job_id };
-        console.log('data info:', data)
+        // console.log('data info:', data)
         if(!user?.email){
-            console.log('userEmail is null')
+            // console.log('userEmail is null')
          return ;
         }
         const res = await useAxios.post('/api/Jobs/JobSubmitForm', data, {
@@ -38,7 +38,7 @@ const ApplyForm = () => {
         });
 
         if (res.data.success) {
-            console.log(res.data.success)
+            // console.log(res.data.success)
             Swal.fire({
                 position: "top-center",
                 icon: "success",
@@ -49,7 +49,7 @@ const ApplyForm = () => {
         }
 
         if (res.data.message) {
-            console.log('candidate response:', res.data.message)
+            // console.log('candidate response:', res.data.message)
             Swal.fire({
                 position: "top-center",
                 icon: "warning",

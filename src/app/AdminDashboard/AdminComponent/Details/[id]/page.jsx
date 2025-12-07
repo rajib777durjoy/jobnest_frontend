@@ -9,14 +9,14 @@ import React from 'react';
 const JobDetails = () => {
     const { id } = useParams();
     const pathName = usePathname();
-    console.log("pathname::", pathName)
-    console.log(id)
+    // console.log("pathname::", pathName)
+    // console.log(id)
     const useAxios = useAxios_public()
     const { data: Jobs = [], isPending } = useQuery({
         queryKey: ['Jobs', id],
         queryFn: async () => {
             const res = await useAxios.get(`/api/admin/JobDetails/${id}`);
-            console.log(res.data)
+            // console.log(res.data)
             return res.data;
         }
     })

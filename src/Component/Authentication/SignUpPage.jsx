@@ -32,7 +32,7 @@ const SignUpPage = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             })
-            console.log('respons::', res.data)
+            // console.log('respons::', res.data)
             if (res.data) {
                 dispatch(setUserData(res.data))
                 route.push('/')
@@ -44,7 +44,7 @@ const SignUpPage = () => {
     const handleGoogleSubmit = async () => {
         const res = await signInWithPopup(auth, provider);
         const user = res.user;
-        console.log('google user', user)
+        // console.log('google user', user)
 
         if (user?.email && user?.displayName) {
             const googleSignIn = await axiosPublic.post('/api/googleSignIn', {
@@ -52,7 +52,7 @@ const SignUpPage = () => {
                 email: user?.email,
                 photoUrl: user?.photoURL
             })
-            console.log("respons::", googleSignIn.data);
+            // console.log("respons::", googleSignIn.data);
             dispatch(setUserData(googleSignIn?.data));
             if (googleSignIn?.data) {
                 return route.push('/');

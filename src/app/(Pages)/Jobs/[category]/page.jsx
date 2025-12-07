@@ -6,17 +6,17 @@ import React from 'react';
 
 const jobCategory = async ({ params }) => {
     const { category } = params;
-    console.log(category)
+    // console.log(category)
     const { data } = await axios.get(`http://localhost:7000/api/user/category/?category=${category}`, { withCredentials: true,timeout: 5000,  headers: {
       'Cache-Control': 'max-age=300', 
     }, });
 
     const Jobs = data.items || []
-    console.log(data.items)
+    // console.log(data.items)
     return (
         <div className='w-[90%] mx-auto min-h-screen '>
             <h1 className='text-center text-4xl mt-10 border-b pb-4'>{(category).replace("%20"," ")}</h1>
-            <div className='w-[100%] grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-6'>
+            <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-6'>
                 {
                     Jobs.map((item, ind) => (<div key={ind} className='shadow-md h-[300px] shadow-green-200 rounded-md flex flex-col justify-center px-4 '>
                         <div className='h-[200px]'>

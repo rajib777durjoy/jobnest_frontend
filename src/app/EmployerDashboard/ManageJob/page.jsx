@@ -12,6 +12,7 @@ import { IoIosSearch } from "react-icons/io";
 import { useSelector } from 'react-redux';
 import { MdDeleteForever } from 'react-icons/md';
 import { FaUsers } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 const ManageJob = () => {
     const userData = useSelector(state => state.user?.userData);
@@ -23,28 +24,52 @@ const ManageJob = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [Jobs, setJobs] = useState([])
 
-    // useEffect(() => {
-    //     console.log('filter:::', filter)
-    //     const delayAction = setTimeout(() => {
-    //         if (userData?.email) {
-    //             useAxios
-    //                 .get(`/api/employer/Joblist?search=${searchText}&&filter=${filter}&&page=${page}&&limit=${limit}`)
-    //                 .then(res => {
-    //                     console.log(res.data.data)
-    //                     setJobs(res.data.data)
-    //                     setPage(res.data.page);
-    //                     setTotalPages(res.data.totalPages);
-    //                 })
-    //                 .catch(err => console.log(err));
-    //         }
-    //     }, 500); // server action after 500ms //
+    useEffect(() => {
+        // console.log('filter:::', filter)
+        const delayAction = setTimeout(() => {
+            if (userData?.email) {
+                useAxios
+                    .get(`/api/employer/Joblist?search=${searchText}&&filter=${filter}&&page=${page}&&limit=${limit}`)
+                    .then(res => {
+                        console.log(res.data.data)
+                        setJobs(res.data.data)
+                        setPage(res.data.page);
+                        setTotalPages(res.data.totalPages);
+                    })
+                    .catch(err => console.log(err));
+            }
+        }, 500); // server action after 500ms //
 
-    //     return () => clearTimeout(delayAction);
+        return () => clearTimeout(delayAction);
 
-    // }, [searchText, filter, page, userData?.email])
+    }, [searchText, filter, page, userData?.email])
 
 
     const handleJobRemove = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            const res = await useAxios.delete(`/api/employer/remove_job/${id}`);
+            if(result.isConfirmed){
+            if (res.data?.message === 'delete successfull') {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        }
+
+        });
+
+
+
 
     }
     console.log('page', totalPages)
@@ -102,7 +127,7 @@ const ManageJob = () => {
                     <span className='text-gray-500 text-sm '>Showing  {Jobs.length} jobs</span>
                 </div>
                 {/* Table part */}
-                {/* {Jobs && <div className='hidden py-4 lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
+                {Jobs && <div className='hidden py-4 lg:block shadow  shadow-gray-500 rounded-md mt-10 overflow-x-scroll px-2'>
                     <Table className=''>
                         <TableHeader>
                             <TableRow>
@@ -131,7 +156,7 @@ const ManageJob = () => {
 
                     </Table>
 
-                </div> || <span className='text-xl block text-gray-400 text-center mt-10'>No Available Applied Job</span>} */}
+                </div> || <span className='text-xl block text-gray-400 text-center mt-10'>No Available Applied Job</span>}
                 <div className="flex gap-2 mt-4">
                     <span>Page {page} of {totalPages}</span>
                 </div>
@@ -140,7 +165,7 @@ const ManageJob = () => {
                     <button
                         onClick={() => setPage(page > 1 ? page - 1 : 1)}
                         className="px-3 border border-gray-300 rounded-md h-10"
-                       
+
                     >
                         Prev
                     </button>
@@ -163,7 +188,7 @@ const ManageJob = () => {
                     <button
                         onClick={() => setPage(page < totalPages ? page + 1 : 1)}
                         className="px-3 border border-gray-300 rounded-md h-10"
-                        
+
                     >
                         Next
                     </button>

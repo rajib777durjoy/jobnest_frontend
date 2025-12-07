@@ -13,7 +13,9 @@ const Adminlayout = ({ children }) => {
                 </div>
 
                 {/* Main Content */}
-                <main className="w-[85%] bg-gray-100 px-6 py-4">{children}</main>
+               
+                    <main className="w-[85%] bg-gray-100 px-6 py-4">{children}</main>
+                
             </div>
 
 

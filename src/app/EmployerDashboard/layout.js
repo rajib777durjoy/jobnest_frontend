@@ -1,7 +1,7 @@
 import Sidebar from '@/Component/Sidebar';
 import React from 'react';
 
-const EmployerLayout = ({children}) => {
+const EmployerLayout = ({ children }) => {
     return (
         <div className="w-full min-h-screen flex flex-col">
             <div className="w-full h-[60px]  px-6"></div>
@@ -12,7 +12,9 @@ const EmployerLayout = ({children}) => {
                 </div>
 
                 {/* Main Content */}
-                <main className="w-[85%] bg-gray-100 px-6 py-4">{children}</main>
+               
+                    <main className="w-[85%] bg-gray-100 px-6 py-4">{children}</main>
+                
             </div>
 
 
